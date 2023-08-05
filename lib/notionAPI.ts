@@ -19,5 +19,18 @@ export const getAllPosts = async () => {
 
   const posts = await response.json()
 
-  return posts.results
+  const results = posts.results
+
+  return results.map((result) => {
+    return getPageMetaData(result)
+  })
+}
+
+const getPageMetaData = (post) => {
+  return {
+    title: post.properties.Name.title[0].plain_text,
+    description: post.properties.Description.rich_text[0].plain_text,
+    date: post.properties.Date.date.start,
+    slug: post.properties.Slug.rich_text[0].plain_text,
+  }
 }
