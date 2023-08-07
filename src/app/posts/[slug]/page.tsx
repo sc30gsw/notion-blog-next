@@ -1,6 +1,9 @@
 import React from 'react'
 
-const Post = () => {
+import { getSinglePost } from '../../../../lib/notionAPI'
+
+const Post = async ({ params }) => {
+  const post = await getSinglePost(params.slug)
   return (
     <section className="container lg:px-2 px-5 h-screen lg:w-2/5 mx-auto mt-20">
       <h2 className="w-full text-2xl font-medium">3回目の投稿です</h2>
