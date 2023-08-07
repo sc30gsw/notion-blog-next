@@ -1,4 +1,12 @@
+import { Client } from '@notionhq/client'
+import { NotionToMarkdown } from 'notion-to-md'
+import type { MdStringObject } from 'notion-to-md/build/types'
+
+import type { Metadata } from './types/Post'
+
 const token = process.env.NOTION_TOKEN as string
+const notion = new Client({ auth: token })
+const n2m = new NotionToMarkdown({ notionClient: notion })
 
 export const getAllPosts = async () => {
   const response = await fetch(
@@ -12,7 +20,7 @@ export const getAllPosts = async () => {
         'Notion-Version': '2022-06-28',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ page_size: 100 }),
+      body: JSON.stringify({ page_size: 200 }),
       next: { revalidate: 60 * 60 * 6 },
     },
   )
@@ -26,7 +34,7 @@ export const getAllPosts = async () => {
   })
 }
 
-const getPageMetaData = (post: any) => {
+const getPageMetaData = (post: any): Metadata => {
   const getTags = (tags: { name: string }[]) => {
     const allTags = tags.map((tag) => {
       return tag.name
@@ -44,7 +52,9 @@ const getPageMetaData = (post: any) => {
   }
 }
 
-export const getSinglePost = async (slug: string) => {
+export const getSinglePost = async (
+  slug: string,
+): Promise<{ metadata: Metadata; markdown: MdStringObject }> => {
   const response = await fetch(
     `https://api.notion.com/v1/databases/${
       process.env.NOTION_DATABASE_ID as string
@@ -65,6 +75,8 @@ export const getSinglePost = async (slug: string) => {
 
   const post = await response.json()
   const metadata = getPageMetaData(post.results[0])
+  const mdBlocks = await n2m.pageToMarkdown(post.results[0].id)
+  const mdString = n2m.toMarkdownString(mdBlocks)
 
-  return metadata
+  return { metadata, markdown: mdString }
 }
