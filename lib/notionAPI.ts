@@ -20,7 +20,7 @@ export const getAllPosts = async () => {
         'Notion-Version': '2022-06-28',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ page_size: 200 }),
+      body: JSON.stringify({ page_size: 100 }),
       next: { revalidate: 60 * 60 * 6 },
     },
   )
@@ -79,4 +79,12 @@ export const getSinglePost = async (
   const mdString = n2m.toMarkdownString(mdBlocks)
 
   return { metadata, markdown: mdString }
+}
+
+/** Topページ用記事の取得 */
+export const getPostsForTopPage = async (pageSize: number = 4) => {
+  const allPosts = await getAllPosts()
+  const fourPosts = allPosts.slice(0, pageSize)
+
+  return fourPosts
 }

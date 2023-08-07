@@ -1,10 +1,10 @@
 import React from 'react'
 
 import SinglePost from '../../lib/components/Post/SinglePost'
-import { getAllPosts } from '../../lib/notionAPI'
+import { getPostsForTopPage } from '../../lib/notionAPI'
 
 const Home = async () => {
-  const posts = await getAllPosts()
+  const posts = await getPostsForTopPage()
 
   return (
     <main className="container w-full mt-16">
