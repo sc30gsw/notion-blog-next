@@ -1,10 +1,9 @@
 import './globals.css'
 
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import React from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+import Navbar from '../../lib/components/Navbar/Navbar'
 
 export const metadata: Metadata = {
   title: 'Notion Blog',
@@ -18,7 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={inter.className}>{children}</body>
+      <body className="container">
+        <Navbar />
+        {children}
+      </body>
     </html>
   )
 }
