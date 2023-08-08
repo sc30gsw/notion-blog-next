@@ -1,10 +1,10 @@
 import React from 'react'
 
 import SinglePost from '../../../../../lib/components/Post/SinglePost'
-import { getPostsForTopPage } from '../../../../../lib/notionAPI'
+import { getPostsByPage } from '../../../../../lib/notionAPI'
 
-const BlogPageList = async () => {
-  const posts = await getPostsForTopPage()
+const BlogPageList = async ({ params }: { params: { page: string } }) => {
+  const posts = await getPostsByPage(parseInt(params.page.toString(), 10))
   return (
     <main className="container w-full mt-16">
       <h1 className="text-5xl font-medium text-center mb-16">Notion Blog🚀</h1>

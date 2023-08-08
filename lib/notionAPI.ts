@@ -2,6 +2,7 @@ import { Client } from '@notionhq/client'
 import { NotionToMarkdown } from 'notion-to-md'
 import type { MdStringObject } from 'notion-to-md/build/types'
 
+import { NUMBER_OF_POSTS_PER_PAGE } from '../constants/constants'
 import type { Metadata } from './types/Post'
 
 const token = process.env.NOTION_TOKEN as string
@@ -87,4 +88,15 @@ export const getPostsForTopPage = async (pageSize: number = 4) => {
   const fourPosts = allPosts.slice(0, pageSize)
 
   return fourPosts
+}
+
+/** ページ番号に応じた記事を取得 */
+export const getPostsByPage = async (page: number) => {
+  const allPosts = await getAllPosts()
+
+  // *4で1ページに4記事表示する
+  const startIndex = (page - 1) * NUMBER_OF_POSTS_PER_PAGE
+  const endIndex = startIndex + NUMBER_OF_POSTS_PER_PAGE
+
+  return allPosts.slice(startIndex, endIndex)
 }
