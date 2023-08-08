@@ -127,3 +127,32 @@ export const getPostsByTagAndPage = async (tagName: string, page: number) => {
 
   return posts.slice(startIndex, endIndex)
 }
+
+export const getNumberOfPagesByTag = async (tagName: string) => {
+  const allPosts = await getAllPosts()
+  // tagの1文字目を大文字にする
+  const upperCaseTagName = tagName.charAt(0).toUpperCase() + tagName.slice(1)
+  // allPostsの要素分tagNameに一致するpostを持つ配列を新たに作成
+  const posts = allPosts.filter((post: Metadata) => {
+    // tagNameに一致するpostを返却（存在しない場合undefined)
+    return !!post.tags.find((tag: string) => tag === upperCaseTagName)
+  })
+
+  // 整数値を返却(配列の要素数を1ページ分の記事数で割った余りが0以上ならプラス1)
+  return (
+    Math.floor(posts.length / NUMBER_OF_POSTS_PER_PAGE) +
+    (posts.length % NUMBER_OF_POSTS_PER_PAGE > 0 ? 1 : 0)
+  )
+}
+
+export const getAllTags = async () => {
+  const allPosts = await getAllPosts()
+  // tags配列をmapで多重配列でなくflatMapで1つの配列とする
+  const duplicateTags = allPosts.flatMap((post: Metadata) => post.tags)
+
+  // 配列の重複要素をなくし、重複を1つにして配列を取得
+  const set = new Set(duplicateTags)
+  const allTags = Array.from(set)
+
+  return allTags
+}

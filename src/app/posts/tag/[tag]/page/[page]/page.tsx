@@ -3,10 +3,35 @@ import React from 'react'
 import Pagination from '../../../../../../../lib/components/Pagination/Pagination'
 import SinglePost from '../../../../../../../lib/components/Post/SinglePost'
 import {
-  getNumberOfPages,
-  getPostsByPage,
+  getAllTags,
+  getNumberOfPagesByTag,
   getPostsByTagAndPage,
 } from '../../../../../../../lib/notionAPI'
+
+export const generateStaticParams = async () => {
+  const allTags = await getAllTags()
+
+  // 各タグに対して、非同期でページ数を取得し、そのページ数分{tag, page}を作成
+  const promises = allTags.map(async (tag) => {
+    const numberOfPagesByTag = await getNumberOfPagesByTag(tag as string)
+
+    // タグに関連するページ数分の{tag, page}配列を作成
+    return Array.from({ length: numberOfPagesByTag }, (_, i) => ({
+      tag: tag as string,
+      page: (i + 1).toString(),
+    }))
+  })
+
+  // すべての非同期処理の完了を待ち、結果を格納
+  const paramsArrays: { tag: string; page: string }[][] = await Promise.all(
+    promises,
+  )
+
+  // 二重配列を配列にする
+  const params: { tag: string; page: string }[] = paramsArrays.flat()
+
+  return params
+}
 
 const BlogTagPageList = async ({
   params,
@@ -17,7 +42,7 @@ const BlogTagPageList = async ({
     params.tag.toString(),
     parseInt(params.page.toString(), 10),
   )
-  const numberOfPage = await getNumberOfPages()
+  const numberOfPageByTag = await getNumberOfPagesByTag(params.tag.toString())
   return (
     <main className="container w-full mt-16">
       <h1 className="text-5xl font-medium text-center mb-16">Notion Blog🚀</h1>
@@ -35,7 +60,7 @@ const BlogTagPageList = async ({
           </div>
         ))}
       </section>
-      <Pagination numberOfPage={numberOfPage} />
+      <Pagination numberOfPage={numberOfPageByTag} />
     </main>
   )
 }
