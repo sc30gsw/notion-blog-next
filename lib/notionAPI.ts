@@ -100,3 +100,13 @@ export const getPostsByPage = async (page: number) => {
 
   return allPosts.slice(startIndex, endIndex)
 }
+
+export const getNumberOfPages = async () => {
+  const allPosts = await getAllPosts()
+
+  // 整数値を返却(配列の要素数を1ページ分の記事数で割った余りが0以上ならプラス1)
+  return (
+    Math.floor(allPosts.length / NUMBER_OF_POSTS_PER_PAGE) +
+    (allPosts.length % NUMBER_OF_POSTS_PER_PAGE > 0 ? 1 : 0)
+  )
+}

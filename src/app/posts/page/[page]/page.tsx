@@ -2,10 +2,11 @@ import React from 'react'
 
 import Pagination from '../../../../../lib/components/Pagination/Pagination'
 import SinglePost from '../../../../../lib/components/Post/SinglePost'
-import { getPostsByPage } from '../../../../../lib/notionAPI'
+import { getNumberOfPages, getPostsByPage } from '../../../../../lib/notionAPI'
 
 const BlogPageList = async ({ params }: { params: { page: string } }) => {
   const posts = await getPostsByPage(parseInt(params.page.toString(), 10))
+  const numberOfPage = await getNumberOfPages()
   return (
     <main className="container w-full mt-16">
       <h1 className="text-5xl font-medium text-center mb-16">Notion Blog🚀</h1>
@@ -23,7 +24,7 @@ const BlogPageList = async ({ params }: { params: { page: string } }) => {
           </div>
         ))}
       </section>
-      <Pagination />
+      <Pagination numberOfPage={numberOfPage} />
     </main>
   )
 }

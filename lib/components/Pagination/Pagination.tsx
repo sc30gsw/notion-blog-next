@@ -1,34 +1,27 @@
 import Link from 'next/link'
 import React from 'react'
 
-const Pagination = () => {
+const Pagination = ({ numberOfPage }: { numberOfPage: number }) => {
+  let pages: number[] = []
+  for (let i = 1; i <= numberOfPage; i++) {
+    pages.push(i)
+  }
+
+  console.log(pages)
+
   return (
     <section className="mb-8 lg:w-1/2 mx-auto rounded-md p-5">
       <ul className="flex items-center justify-center gap-4">
-        <li className="bg-sky-900 rounded-lg w-6 h-8 relative">
-          <Link
-            href="/posts/page/1"
-            className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 text-gray-100"
-          >
-            1
-          </Link>
-        </li>
-        <li className="bg-sky-900 rounded-lg w-6 h-8 relative">
-          <Link
-            href="/posts/page/2"
-            className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 text-gray-100"
-          >
-            2
-          </Link>
-        </li>
-        <li className="bg-sky-900 rounded-lg w-6 h-8 relative">
-          <Link
-            href="/posts/page/3"
-            className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 text-gray-100"
-          >
-            3
-          </Link>
-        </li>
+        {pages.map((page) => (
+          <li key={page} className="bg-sky-900 rounded-lg w-6 h-8 relative">
+            <Link
+              href={`/posts/page/${page}`}
+              className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 text-gray-100"
+            >
+              {page}
+            </Link>
+          </li>
+        ))}
       </ul>
     </section>
   )
