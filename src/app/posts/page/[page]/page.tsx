@@ -39,7 +39,7 @@ const BlogPageList = async ({ params }: { params: { page: string } }) => {
           </div>
         ))}
       </section>
-      <Pagination numberOfPage={numberOfPage} />
+      <Pagination numberOfPage={numberOfPage} tag="" />
     </main>
   )
 }

@@ -60,7 +60,10 @@ const BlogTagPageList = async ({
           </div>
         ))}
       </section>
-      <Pagination numberOfPage={numberOfPageByTag} />
+      <Pagination
+        numberOfPage={numberOfPageByTag}
+        tag={params.tag.toString()}
+      />
     </main>
   )
 }
