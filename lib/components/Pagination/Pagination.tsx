@@ -7,8 +7,6 @@ const Pagination = ({ numberOfPage }: { numberOfPage: number }) => {
     pages.push(i)
   }
 
-  console.log(pages)
-
   return (
     <section className="mb-8 lg:w-1/2 mx-auto rounded-md p-5">
       <ul className="flex items-center justify-center gap-4">
