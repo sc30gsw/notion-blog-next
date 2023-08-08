@@ -110,3 +110,20 @@ export const getNumberOfPages = async () => {
     (allPosts.length % NUMBER_OF_POSTS_PER_PAGE > 0 ? 1 : 0)
   )
 }
+
+export const getPostsByTagAndPage = async (tagName: string, page: number) => {
+  const allPosts = await getAllPosts()
+  // tagの1文字目を大文字にする
+  const upperCaseTagName = tagName.charAt(0).toUpperCase() + tagName.slice(1)
+  // allPostsの要素分tagNameに一致するpostを持つ配列を新たに作成
+  const posts = allPosts.filter((post: Metadata) => {
+    // tagNameに一致するpostを返却（存在しない場合undefined)
+    return !!post.tags.find((tag: string) => tag === upperCaseTagName)
+  })
+
+  // *4で1ページに4記事表示する
+  const startIndex = (page - 1) * NUMBER_OF_POSTS_PER_PAGE
+  const endIndex = startIndex + NUMBER_OF_POSTS_PER_PAGE
+
+  return posts.slice(startIndex, endIndex)
+}

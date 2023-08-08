@@ -5,10 +5,18 @@ import SinglePost from '../../../../../../../lib/components/Post/SinglePost'
 import {
   getNumberOfPages,
   getPostsByPage,
+  getPostsByTagAndPage,
 } from '../../../../../../../lib/notionAPI'
 
-const BlogTagPageList = async ({ params }: { params: { page: string } }) => {
-  const posts = await getPostsByPage(parseInt(params.page.toString(), 10))
+const BlogTagPageList = async ({
+  params,
+}: {
+  params: { tag: string; page: string }
+}) => {
+  const posts = await getPostsByTagAndPage(
+    params.tag.toString(),
+    parseInt(params.page.toString(), 10),
+  )
   const numberOfPage = await getNumberOfPages()
   return (
     <main className="container w-full mt-16">
