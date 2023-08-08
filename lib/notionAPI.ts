@@ -21,7 +21,10 @@ export const getAllPosts = async () => {
         'Notion-Version': '2022-06-28',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ page_size: 100 }),
+      body: JSON.stringify({
+        page_size: 100,
+        sorts: [{ property: 'Date', direction: 'descending' }],
+      }),
       next: { revalidate: 60 * 60 * 6 },
     },
   )
