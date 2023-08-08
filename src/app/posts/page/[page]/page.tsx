@@ -4,6 +4,21 @@ import Pagination from '../../../../../lib/components/Pagination/Pagination'
 import SinglePost from '../../../../../lib/components/Post/SinglePost'
 import { getNumberOfPages, getPostsByPage } from '../../../../../lib/notionAPI'
 
+export const generateStaticParams = async () => {
+  const numberOfPage = await getNumberOfPages()
+
+  // Array.fromで長さがnumberOfPageの配列を作成
+  // Array.fromの第二引数でmapと同じ挙動を起こす
+  const pages: { page: string }[] = Array.from(
+    { length: numberOfPage },
+    (_, i) => {
+      return { page: (i + 1).toString() }
+    },
+  )
+
+  return pages
+}
+
 const BlogPageList = async ({ params }: { params: { page: string } }) => {
   const posts = await getPostsByPage(parseInt(params.page.toString(), 10))
   const numberOfPage = await getNumberOfPages()

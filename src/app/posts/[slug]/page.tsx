@@ -1,8 +1,17 @@
 import Link from 'next/link'
 import React from 'react'
 
-import { getSinglePost } from '../../../../lib/notionAPI'
+import { getAllPosts, getSinglePost } from '../../../../lib/notionAPI'
+import type { Metadata } from '../../../../lib/types/Post'
 import Markdown from './Markdown'
+
+export const generateStaticParams = async () => {
+  const allPosts = await getAllPosts()
+
+  return allPosts.map((post: Metadata) => ({
+    slug: post.slug,
+  }))
+}
 
 const Post = async ({ params }: { params: { slug: string } }) => {
   const post = await getSinglePost(params.slug)
