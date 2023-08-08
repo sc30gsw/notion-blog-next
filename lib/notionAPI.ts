@@ -23,6 +23,7 @@ export const getAllPosts = async () => {
       },
       body: JSON.stringify({
         page_size: 100,
+        filter: { property: 'Published', checkbox: { equals: true } },
         sorts: [{ property: 'Date', direction: 'descending' }],
       }),
       next: { revalidate: 60 * 60 * 6 },
