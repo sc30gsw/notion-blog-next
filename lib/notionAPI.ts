@@ -26,7 +26,7 @@ export const getAllPosts = async () => {
         filter: { property: 'Published', checkbox: { equals: true } },
         sorts: [{ property: 'Date', direction: 'descending' }],
       }),
-      next: { revalidate: 60 * 60 * 6 },
+      next: { revalidate: 10 },
     },
   )
 
@@ -74,7 +74,7 @@ export const getSinglePost = async (
       body: JSON.stringify({
         filter: { property: 'Slug', rich_text: { equals: slug } },
       }),
-      next: { revalidate: 60 * 60 * 6 },
+      next: { revalidate: 10 },
     },
   )
 
