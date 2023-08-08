@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Pagination from '../../../../../lib/components/Pagination/Pagination'
 import SinglePost from '../../../../../lib/components/Post/SinglePost'
 import { getPostsByPage } from '../../../../../lib/notionAPI'
 
@@ -22,6 +23,7 @@ const BlogPageList = async ({ params }: { params: { page: string } }) => {
           </div>
         ))}
       </section>
+      <Pagination />
     </main>
   )
 }
