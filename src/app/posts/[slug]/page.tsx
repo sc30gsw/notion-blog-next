@@ -1,8 +1,17 @@
 import Link from 'next/link'
 import React from 'react'
 
-import { getSinglePost } from '../../../../lib/notionAPI'
+import { getAllPosts, getSinglePost } from '../../../../lib/notionAPI'
+import type { Metadata } from '../../../../lib/types/Post'
 import Markdown from './Markdown'
+
+export const generateStaticParams = async () => {
+  const allPosts = await getAllPosts()
+
+  return allPosts.map((post: Metadata) => ({
+    slug: post.slug,
+  }))
+}
 
 const Post = async ({ params }: { params: { slug: string } }) => {
   const post = await getSinglePost(params.slug)
@@ -16,9 +25,15 @@ const Post = async ({ params }: { params: { slug: string } }) => {
       {post.metadata.tags.map((tag, index) => (
         <p
           key={index}
-          className="text-white bg-sky-900 rounded-xl font-medium mt-2 px-2 inline-block mr-2"
+          className="text-white bg-sky-900 rounded-xl font-medium mt-2 px-2 inline-block mr-2 cursor-pointer"
         >
-          {tag}
+          <Link
+            href={`/posts/tag/${
+              tag.charAt(0).toLowerCase() + tag.slice(1)
+            }/page/1`}
+          >
+            {tag}
+          </Link>
         </p>
       ))}
       <div className="mt-10 font-medium">

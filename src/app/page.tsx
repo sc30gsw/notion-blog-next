@@ -1,10 +1,13 @@
+import Link from 'next/link'
 import React from 'react'
 
 import SinglePost from '../../lib/components/Post/SinglePost'
-import { getAllPosts } from '../../lib/notionAPI'
+import Tag from '../../lib/components/Tag/Tag'
+import { getAllTags, getPostsForTopPage } from '../../lib/notionAPI'
 
 const Home = async () => {
-  const posts = await getAllPosts()
+  const posts = await getPostsForTopPage()
+  const allTags = await getAllTags()
 
   return (
     <main className="container w-full mt-16">
@@ -17,9 +20,17 @@ const Home = async () => {
             date={post.date}
             tags={post.tags}
             slug={post.slug}
+            isPaginationPage={false}
           />
         </div>
       ))}
+      <Link
+        href="/posts/page/1"
+        className="mb-6 lg:w-1/2 mx-auto px-5 block text-right"
+      >
+        ...もっと見る
+      </Link>
+      <Tag tags={allTags as string[]} />
     </main>
   )
 }
