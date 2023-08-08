@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import SinglePost from '../../lib/components/Post/SinglePost'
+import Tag from '../../lib/components/Tag/Tag'
 import { getPostsForTopPage } from '../../lib/notionAPI'
 
 const Home = async () => {
@@ -28,6 +29,7 @@ const Home = async () => {
       >
         ...もっと見る
       </Link>
+      <Tag />
     </main>
   )
 }
