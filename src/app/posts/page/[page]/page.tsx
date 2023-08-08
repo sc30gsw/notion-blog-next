@@ -2,7 +2,12 @@ import React from 'react'
 
 import Pagination from '../../../../../lib/components/Pagination/Pagination'
 import SinglePost from '../../../../../lib/components/Post/SinglePost'
-import { getNumberOfPages, getPostsByPage } from '../../../../../lib/notionAPI'
+import Tag from '../../../../../lib/components/Tag/Tag'
+import {
+  getAllTags,
+  getNumberOfPages,
+  getPostsByPage,
+} from '../../../../../lib/notionAPI'
 
 export const generateStaticParams = async () => {
   const numberOfPage = await getNumberOfPages()
@@ -22,6 +27,7 @@ export const generateStaticParams = async () => {
 const BlogPageList = async ({ params }: { params: { page: string } }) => {
   const posts = await getPostsByPage(parseInt(params.page.toString(), 10))
   const numberOfPage = await getNumberOfPages()
+  const allTags = await getAllTags()
   return (
     <main className="container w-full mt-16">
       <h1 className="text-5xl font-medium text-center mb-16">Notion Blog🚀</h1>
@@ -40,6 +46,7 @@ const BlogPageList = async ({ params }: { params: { page: string } }) => {
         ))}
       </section>
       <Pagination numberOfPage={numberOfPage} tag="" />
+      <Tag tags={allTags as string[]} />
     </main>
   )
 }

@@ -2,6 +2,7 @@ import React from 'react'
 
 import Pagination from '../../../../../../../lib/components/Pagination/Pagination'
 import SinglePost from '../../../../../../../lib/components/Post/SinglePost'
+import Tag from '../../../../../../../lib/components/Tag/Tag'
 import {
   getAllTags,
   getNumberOfPagesByTag,
@@ -43,6 +44,7 @@ const BlogTagPageList = async ({
     parseInt(params.page.toString(), 10),
   )
   const numberOfPageByTag = await getNumberOfPagesByTag(params.tag.toString())
+  const allTags = await getAllTags()
   return (
     <main className="container w-full mt-16">
       <h1 className="text-5xl font-medium text-center mb-16">Notion Blog🚀</h1>
@@ -64,6 +66,7 @@ const BlogTagPageList = async ({
         numberOfPage={numberOfPageByTag}
         tag={params.tag.toString()}
       />
+      <Tag tags={allTags as string[]} />
     </main>
   )
 }

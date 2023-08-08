@@ -25,9 +25,15 @@ const Post = async ({ params }: { params: { slug: string } }) => {
       {post.metadata.tags.map((tag, index) => (
         <p
           key={index}
-          className="text-white bg-sky-900 rounded-xl font-medium mt-2 px-2 inline-block mr-2"
+          className="text-white bg-sky-900 rounded-xl font-medium mt-2 px-2 inline-block mr-2 cursor-pointer"
         >
-          {tag}
+          <Link
+            href={`/posts/tag/${
+              tag.charAt(0).toLowerCase() + tag.slice(1)
+            }/page/1`}
+          >
+            {tag}
+          </Link>
         </p>
       ))}
       <div className="mt-10 font-medium">
