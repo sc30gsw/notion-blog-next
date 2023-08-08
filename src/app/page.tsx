@@ -3,10 +3,11 @@ import React from 'react'
 
 import SinglePost from '../../lib/components/Post/SinglePost'
 import Tag from '../../lib/components/Tag/Tag'
-import { getPostsForTopPage } from '../../lib/notionAPI'
+import { getAllTags, getPostsForTopPage } from '../../lib/notionAPI'
 
 const Home = async () => {
   const posts = await getPostsForTopPage()
+  const allTags = await getAllTags()
 
   return (
     <main className="container w-full mt-16">
@@ -29,7 +30,7 @@ const Home = async () => {
       >
         ...もっと見る
       </Link>
-      <Tag />
+      <Tag tags={allTags as string[]} />
     </main>
   )
 }
